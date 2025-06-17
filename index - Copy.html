@@ -10,6 +10,7 @@
           <link rel="icon" type="image/png" href="favicon.png">
   
 
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
     </head>
     <body>
@@ -285,21 +286,21 @@
                 <p>Get In Touch</p>
                 <h2>Contact Me</h2>
             </div>
-            <form id="contactForm" method="post" action="your-action-url" onsubmit="return validateContactForm();">
+            <form id="contactForm" method="post"  onsubmit="return validateContactForm();">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                            <input type="text" class="form-control" id="name" placeholder="Your Name" name="name" required>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                            <input type="email" class="form-control" id="email" placeholder="Your Email" name="email" required>
                         </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <textarea class="form-control" id="message" rows="5" placeholder="Your Message" required></textarea>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Your Message" name="message" required></textarea>
                         </div>
                     </div>
                     <div class="col-lg-12 text-center">
@@ -349,6 +350,44 @@
     </script>
 
 
+ <!-- MAIL -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("zfgZjDw7n8y-OvnAC");
+        })();
+    </script>
+<!-- MAIL-SEND -->
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent default form submission
+            
+
+            const name = this.name.value.trim();
+            const email = this.email.value.trim();
+            const message = this.message.value.trim();
+
+            if (!name || !email || !message) {
+                alert("❌ Please fill out all fields.");
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("❌ Please enter a valid email address.");
+                return;
+            }
+
+            emailjs.sendForm("service_1lgxjif", "template_kuhomac", this)
+                .then(function () {
+                    alert("✅ Message sent successfully!");
+                }, function (error) {
+                    alert("❌ Failed to send message. Error: " + error.text);
+                });
+
+            this.reset();
+        });
+    </script>
 </body>
 
 </html>
